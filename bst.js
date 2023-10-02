@@ -99,6 +99,18 @@ class Tree {
       }
     }
   }
+
+  find(value, root = this.root) {
+    if (root === null) return null;
+
+    if (value < root.data) {
+      return this.find(value, root.left);
+    } else if (value > root.data) {
+      return this.find(value, root.right);
+    } else {
+      return root;
+    }
+  }
 }
 
 function buildTree(arr, start = 0, end = arr.length - 1) {
@@ -137,3 +149,5 @@ nums.insert(99);
 prettyPrint(nums.root);
 nums.delete(99);
 prettyPrint(nums.root);
+console.log(nums.find(3));
+console.log(nums.find(67));
