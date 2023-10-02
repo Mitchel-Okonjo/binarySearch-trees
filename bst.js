@@ -34,6 +34,71 @@ class Tree {
       }
     }
   }
+
+  delete(value) {
+    if (!this.root) return;
+    let current = this.root;
+    let parent = null;
+
+    while (current) {
+      if (value < current.data) {
+        parent = current;
+        current = current.left;
+        continue;
+      } else if (value > current.data) {
+        parent = current;
+        current = current.right;
+        continue;
+      } else {
+        if (!current.left && !current.right) {
+          if (!parent) {
+            // Special case: deleting the root node
+            this.root = null;
+          } else if (parent.left === current) {
+            parent.left = null;
+          } else {
+            parent.right = null;
+          }
+          break;
+        } else if (current.left && !current.right) {
+          if (!parent) {
+            // Special case: deleting the root node
+            this.root = null;
+          } else if (parent.left === current) {
+            parent.left = current.left;
+          } else {
+            parent.right = current.left;
+          }
+          break;
+        } else if (!current.left && current.right) {
+          if (!parent) {
+            // Special case: deleting the root node
+            this.root = null;
+          } else if (parent.left === current) {
+            parent.left = current.right;
+          } else {
+            parent.right = current.right;
+          }
+          break;
+        } else {
+          let minNode = current.right;
+          let minNodeParent = current;
+
+          while (minNode.left) {
+            minNodeParent = minNode;
+            minNode = minNode.left;
+          }
+          current.data = minNode.data;
+          if (minNodeParent.left === minNode) {
+            minNodeParent.left = minNode.right;
+          } else {
+            minNodeParent.right = minNode.right;
+          }
+          break;
+        }
+      }
+    }
+  }
 }
 
 function buildTree(arr, start = 0, end = arr.length - 1) {
@@ -63,9 +128,12 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 const newArr = [...new Set([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])];
 newArr.sort((a, b) => a - b);
-prettyPrint(buildTree(newArr));
 
 const nums = new Tree(buildTree(newArr));
 prettyPrint(nums.root);
 nums.insert(2);
+nums.insert(100);
+nums.insert(99);
+prettyPrint(nums.root);
+nums.delete(99);
 prettyPrint(nums.root);
