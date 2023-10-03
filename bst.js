@@ -111,6 +111,23 @@ class Tree {
       return root;
     }
   }
+
+  levelOrder(arr = [], queue = [], root = this.root) {
+    if (root === null) return arr;
+
+    arr.push(root.data);
+
+    queue.push(root.left);
+    queue.push(root.right);
+
+    while (queue.length) {
+      const level = queue[0];
+      queue.shift();
+      this.levelOrder(arr, queue, level);
+    }
+
+    return arr;
+  }
 }
 
 function buildTree(arr, start = 0, end = arr.length - 1) {
@@ -143,11 +160,12 @@ newArr.sort((a, b) => a - b);
 
 const nums = new Tree(buildTree(newArr));
 prettyPrint(nums.root);
-nums.insert(2);
-nums.insert(100);
-nums.insert(99);
-prettyPrint(nums.root);
-nums.delete(99);
-prettyPrint(nums.root);
-console.log(nums.find(3));
-console.log(nums.find(67));
+// nums.insert(2);
+// nums.insert(100);
+// nums.insert(99);
+// prettyPrint(nums.root);
+// nums.delete(99);
+// prettyPrint(nums.root);
+// console.log(nums.find(3));
+// console.log(nums.find(67));
+console.log(nums.levelOrder());
