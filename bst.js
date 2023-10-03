@@ -128,6 +128,36 @@ class Tree {
 
     return arr;
   }
+
+  inOrder(arr = [], root = this.root) {
+    if (root === null) return arr;
+
+    if (root.left) this.inOrder(arr, root.left);
+    arr.push(root.data);
+    if (root.right) this.inOrder(arr, root.right);
+
+    return arr;
+  }
+
+  preOrder(arr = [], root = this.root) {
+    if (root === null) return arr;
+
+    arr.push(root.data);
+    if (root.left) this.preOrder(arr, root.left);
+    if (root.right) this.preOrder(arr, root.right);
+
+    return arr;
+  }
+
+  postOrder(arr = [], root = this.root) {
+    if (root === null) return arr;
+
+    if (root.left) this.postOrder(arr, root.left);
+    if (root.right) this.postOrder(arr, root.right);
+    arr.push(root.data);
+
+    return arr;
+  }
 }
 
 function buildTree(arr, start = 0, end = arr.length - 1) {
@@ -169,3 +199,6 @@ prettyPrint(nums.root);
 // console.log(nums.find(3));
 // console.log(nums.find(67));
 console.log(nums.levelOrder());
+console.log(nums.inOrder());
+console.log(nums.preOrder());
+console.log(nums.postOrder());
